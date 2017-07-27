@@ -5,19 +5,19 @@ import (
 	"../models"
 )
 
-var addUserQuery string = "replace into User values(:name, :hashed_password)"
-var getUserQuery string = "select * from User where name = ?"
+var addUserQuery string = "replace into User values(:user_name, :hashed_password)"
+var getUserQuery string = "select * from User where user_name = ?"
 var listUsersQuery string = "select * from User"
-var deleteUserQuery string = "delete from User where name = ?"
+var deleteUserQuery string = "delete from User where user_name = ?"
 
 func (db *dbImpl) CreateUser(user models.User) error {
     _, err := db.sqliteDB.NamedExec(addUserQuery, user)
     return err
 }
 
-func (db *dbImpl) GetUser(name string) (*models.User, error) {
+func (db *dbImpl) GetUser(userName string) (*models.User, error) {
     result := models.User{}
-    err := db.sqliteDB.Get(&result, getUserQuery, name)
+    err := db.sqliteDB.Get(&result, getUserQuery, userName)
     
     if err == sql.ErrNoRows {
         return nil, nil
@@ -33,7 +33,7 @@ func (db *dbImpl) ListUsers() ([]models.User, error) {
 	return res, err
 }
 
-func (db *dbImpl) DeleteUser(name string) error {
-	_, err := db.sqliteDB.Exec(deleteUserQuery, name)
+func (db *dbImpl) DeleteUser(userName string) error {
+	_, err := db.sqliteDB.Exec(deleteUserQuery, userName)
 	return err
 }

@@ -17,9 +17,8 @@ func SignUp(userName string, password []byte) error {
 	db, err := storage.NewDB("./test.sqlite3")
     if err != nil {
 	    fmt.Printf(err.Error())
-    } else {
-        fmt.Printf("DB Done!")
     }
+
 	user := models.User{userName, hashedPassword}
 	err = db.CreateUser(user)
 	return err
@@ -29,8 +28,6 @@ func Login(userName string, password []byte) (bool, error) {
 	db, err := storage.NewDB("./test.sqlite3")
     if err != nil {
 	    fmt.Printf(err.Error())
-    } else {
-        fmt.Printf("DB Done!")
     }
 
 	user, _ := db.GetUser(userName)
