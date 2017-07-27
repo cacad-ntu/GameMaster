@@ -9,6 +9,9 @@ import (
 type DB interface {
     CreateUser(user models.User) error
     GetUser(name string) (*models.User, error)
+    CreateGroup(group models.Group) error
+    GetGroup(name string) (*models.Group, error)
+    ListGroups() ([]models.Group, error)
 }
 
 type dbImpl struct {
