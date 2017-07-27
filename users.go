@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"golang.org/x/crypto/bcrypt"
+	"./storage"
+	"./models"
 )
 
 func SignUp(userName string, password []byte) error {
@@ -12,16 +14,28 @@ func SignUp(userName string, password []byte) error {
         panic(err)
     }
 	
-	// TODO: store in DB
-	fmt.Println(string(hashedPassword))
+	db, err := storage.NewDB("./test.sqlite3")
+    if err != nil {
+	    fmt.Printf(err.Error())
+    } else {
+        fmt.Printf("DB Done!")
+    }
+	user := models.User{userName, hashedPassword}
+	err = db.CreateUser(user)
 	return err
 }
 
 func Login(userName string, password []byte) (bool, error) {
-	// TODO: retrieve data from DB and match them
-	// for now it is hardcoded that the correct password is "test", feel free to change it for dev purpose
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte("test"), bcrypt.DefaultCost)
-	err = bcrypt.CompareHashAndPassword(hashedPassword, password)
+	db, err := storage.NewDB("./test.sqlite3")
+    if err != nil {
+	    fmt.Printf(err.Error())
+    } else {
+        fmt.Printf("DB Done!")
+    }
+
+	user, _ := db.GetUser(userName)
+	
+	err = bcrypt.CompareHashAndPassword(user.HashedPassword, password)
 
     // nil means it is a match
 	if (err != nil) {
