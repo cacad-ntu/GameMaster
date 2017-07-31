@@ -13,9 +13,9 @@ type DB interface {
     ListUsers() ([]models.User, error)
     DeleteUser(userName string) error
     CreateTeam(team models.Team) error
-    GetTeam(name string) (*models.Team, error)
+    GetTeam(id uuid.UUID) (*models.Team, error)
     ListTeams() ([]models.Team, error)
-    DeleteTeam(name string) error
+    DeleteTeam(id uuid.UUID) error
     CreateEvent(event models.Event) error
     GetEvent(id uuid.UUID) (*models.Event, error)
     ListEvents() ([]models.Event, error)
@@ -27,6 +27,10 @@ type DB interface {
     CreateUserEvent(id uuid.UUID, user_name string, event_id uuid.UUID) error
     CreateEventTeam(id uuid.UUID, event_id uuid.UUID, team_id uuid.UUID) error
     CreateTeamGame(id uuid.UUID, team_id uuid.UUID, game_id uuid.UUID) error
+    ListUsersFromEvent(event_id uuid.UUID) ([]models.User, error)
+    DeleteUserFromEvent(userName string) error
+    ListTeamsFromEvent(event_id uuid.UUID) ([]models.Team, error)
+    DeleteTeamFromEvent(team_id uuid.UUID) error
 }
 
 type dbImpl struct {

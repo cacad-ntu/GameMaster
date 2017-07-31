@@ -2,22 +2,23 @@ package storage
 
 import (
 	"database/sql"
+    "github.com/satori/go.uuid"
 	"../models"
 )
 
 var addTeamQuery string = "replace into Team values(:id, :name, :hashed_password)"
-var getTeamQuery string = "select * from Team where name = ?"
+var getTeamQuery string = "select * from Team where id = ?"
 var listTeamsQuery string = "select * from Team"
-var deleteTeamQuery string = "delete from Team where name = ?"
+var deleteTeamQuery string = "delete from Team where id = ?"
 
 func (db *dbImpl) CreateTeam(team models.Team) error {
     _, err := db.sqliteDB.NamedExec(addTeamQuery, team)
     return err
 }
 
-func (db *dbImpl) GetTeam(name string) (*models.Team, error) {
+func (db *dbImpl) GetTeam(id uuid.UUID) (*models.Team, error) {
     result := models.Team{}
-    err := db.sqliteDB.Get(&result, getTeamQuery, name)
+    err := db.sqliteDB.Get(&result, getTeamQuery, id)
     
     if err == sql.ErrNoRows {
         return nil, nil
@@ -33,7 +34,7 @@ func (db *dbImpl) ListTeams() ([]models.Team, error) {
 	return res, err
 }
 
-func (db *dbImpl) DeleteTeam(name string) error {
-	_, err := db.sqliteDB.Exec(deleteTeamQuery, name)
+func (db *dbImpl) DeleteTeam(id uuid.UUID) error {
+	_, err := db.sqliteDB.Exec(deleteTeamQuery, id)
 	return err
 }
