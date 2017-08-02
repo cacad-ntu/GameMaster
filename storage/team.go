@@ -2,7 +2,8 @@ package storage
 
 import (
 	"database/sql"
-	"../models"
+
+	"github.com/cacad-ntu/GameMaster/models"
 )
 
 var addTeamQuery string = "replace into Team values(:id, :name, :hashed_password)"
@@ -11,19 +12,19 @@ var listTeamsQuery string = "select * from Team"
 var deleteTeamQuery string = "delete from Team where name = ?"
 
 func (db *dbImpl) CreateTeam(team models.Team) error {
-    _, err := db.sqliteDB.NamedExec(addTeamQuery, team)
-    return err
+	_, err := db.sqliteDB.NamedExec(addTeamQuery, team)
+	return err
 }
 
 func (db *dbImpl) GetTeam(name string) (*models.Team, error) {
-    result := models.Team{}
-    err := db.sqliteDB.Get(&result, getTeamQuery, name)
-    
-    if err == sql.ErrNoRows {
-        return nil, nil
-    }
+	result := models.Team{}
+	err := db.sqliteDB.Get(&result, getTeamQuery, name)
 
-    return &result, err
+	if err == sql.ErrNoRows {
+		return nil, nil
+	}
+
+	return &result, err
 }
 
 func (db *dbImpl) ListTeams() ([]models.Team, error) {
