@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	secretKey = "dian-goblok"
+	secretKey = "cacad-ntu"
 	issuer    = "cacad-ntu"
 )
 
