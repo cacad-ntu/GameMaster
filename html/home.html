@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/resources/styles.css">
+</head>
+<body>
+    <div class="login-container">
+        <table>
+            <tr>
+                <td>
+                    <div class="item">
+                        <img src="/resources/{{.ProfilePictURL}}">
+                    </div>
+                </td>
+                <td>
+                    <h1>{{.DisplayName}}</h1>
+                    <h5>({{.Username}})</h5>
+                     <div class="Log-Out">
+                        <a href="/logout">Log Out</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

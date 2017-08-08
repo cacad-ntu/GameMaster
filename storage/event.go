@@ -2,7 +2,8 @@ package storage
 
 import (
 	"database/sql"
-	"../models"
+
+	"github.com/cacad-ntu/GameMaster/models"
 	"github.com/satori/go.uuid"
 )
 
@@ -12,19 +13,19 @@ var listEventsQuery string = "select * from Event"
 var deleteEventQuery string = "delete from Event where id = ?"
 
 func (db *dbImpl) CreateEvent(event models.Event) error {
-    _, err := db.sqliteDB.NamedExec(addEventQuery, event)
-    return err
+	_, err := db.sqliteDB.NamedExec(addEventQuery, event)
+	return err
 }
 
 func (db *dbImpl) GetEvent(id uuid.UUID) (*models.Event, error) {
-    result := models.Event{}
-    err := db.sqliteDB.Get(&result, getEventQuery, id)
-    
-    if err == sql.ErrNoRows {
-        return nil, nil
-    }
+	result := models.Event{}
+	err := db.sqliteDB.Get(&result, getEventQuery, id)
 
-    return &result, err
+	if err == sql.ErrNoRows {
+		return nil, nil
+	}
+
+	return &result, err
 }
 
 func (db *dbImpl) ListEvents() ([]models.Event, error) {

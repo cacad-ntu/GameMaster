@@ -2,7 +2,7 @@ package storage
 
 import (
 	"database/sql"
-	"../models"
+	"github.com/cacad-ntu/GameMaster/models"
 	"github.com/satori/go.uuid"
 )
 
